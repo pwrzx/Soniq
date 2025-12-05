@@ -279,19 +279,35 @@ body {
 
 
 
+
+
+/* Track Info (Floating) */
 .track-info {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
+    z-index: 20;
+    pointer-events: none;
+    width: 80%;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .track-info h1 {
-    font-size: 1.5rem;
-    margin-bottom: 0.2rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
     color: var(--text-main);
+    letter-spacing: 1px;
 }
 
 .track-info p {
     color: var(--text-sec);
-    font-size: 0.9rem;
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 /* Dashboard (Controls) */
