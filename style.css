@@ -345,6 +345,14 @@ body {
     box-shadow: 0 0 10px var(--accent);
 }
 
+.main-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
 .btn-control.sm {
     font-size: 1.5rem;
 }
