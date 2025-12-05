@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soniq - Pure Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-controls">
+        <button class="theme-btn" data-theme="dark" title="Simple Dark">🌑</button>
+        <button class="theme-btn" data-theme="sad" title="Sad & Purple">💜</button>
+        <button class="theme-btn" data-theme="chill" title="Chill (Cyan & Gold)">💠</button>
+    </div>
+
+    <div class="app-container">
+
+
+        <!-- Solar System Display -->
+        <div class="solar-system" id="solar-system">
+            <div class="sun-container">
+                <div class="sun" id="sun">
+                    <div class="album-art" id="album-art">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                </div>
+                <!-- YouTube Player moves here or stays hidden/overlay -->
+                <div id="youtube-player" class="youtube-player hidden"></div>
+                <div class="sun-glow"></div>
+            </div>
+
+            <div class="orbits-container" id="orbits">
+                <!-- JavaScript will populate planets here -->
+            </div>
+        </div>
+
+        <!-- Dashboard (Controls) -->
+        <div class="dashboard">
+            <div class="track-info">
+                <h1 id="track-title">Select Music</h1>
+                <p id="track-artist">Your Universe</p>
+            </div>
+
+            <div class="progress-container" id="progress-container">
+                <span class="time" id="current-time">0:00</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="time" id="duration">0:00</span>
+            </div>
+
+            <div class="main-controls">
+                <button class="btn-control sm" id="prev-btn" aria-label="Previous">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button class="btn-control lg" id="play-btn" aria-label="Play">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+                <button class="btn-control sm" id="next-btn" aria-label="Next">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+            </div>
+
+            <div class="extra-controls">
+                <div class="volume-container">
+                    <i class="fa-solid fa-volume-low"></i>
+                    <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.7">
+                </div>
+
+                <div class="inputs">
+                    <div class="yt-input-wrapper">
+                        <i class="fa-brands fa-youtube"></i>
+                        <input type="text" id="yt-url-input" placeholder="YouTube URL">
+                        <button id="load-yt-btn">Add</button>
+                    </div>
+                    <label for="music-upload" class="icon-btn" title="Upload Local Files">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </label>
+                    <input type="file" id="music-upload" accept="audio/*" multiple>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-player"></audio>
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>

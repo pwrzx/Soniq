@@ -1,0 +1,467 @@
+:root {
+    --font-family: 'Outfit', sans-serif;
+    --transition-speed: 0.5s;
+    /* Slower for space feel */
+}
+
+/* Theme: Simple Dark (Default) */
+[data-theme="dark"] {
+    --bg-gradient: radial-gradient(circle at center, #24243e, #0f0c29 80%);
+    --sun-color: #f72585;
+    --sun-glow: rgba(247, 37, 133, 0.4);
+    --orbit-border: rgba(255, 255, 255, 0.08);
+    --planet-color: #4cc9f0;
+    --planet-active: #f72585;
+    --text-main: #fff;
+    --text-sec: #aaa;
+    --dash-bg: rgba(15, 12, 41, 0.85);
+    --accent: #f72585;
+}
+
+/* Theme: Sad & Purple */
+[data-theme="sad"] {
+    --bg-gradient: linear-gradient(to bottom, #2b1055, #7597de);
+    /* Melancholy purple/blue */
+    --bg-gradient: radial-gradient(circle at center, #452475, #10051f 80%);
+    --sun-color: #9d4edd;
+    --sun-glow: rgba(157, 78, 221, 0.5);
+    --orbit-border: rgba(255, 255, 255, 0.05);
+    --planet-color: #5a189a;
+    --planet-active: #e0aaff;
+    --text-main: #e0aaff;
+    --text-sec: #7b2cbf;
+    --dash-bg: rgba(16, 5, 31, 0.9);
+    --accent: #9d4edd;
+}
+
+/* Theme: Chill (Cyan & Gold) */
+[data-theme="chill"] {
+    --bg-gradient: linear-gradient(135deg, #001f2b 0%, #004e66 100%);
+    --bg-gradient: radial-gradient(circle at center, #004e66, #001f2b 90%);
+    --sun-color: #ffd700;
+    /* Gold */
+    --sun-glow: rgba(255, 215, 0, 0.5);
+    --orbit-border: rgba(0, 255, 255, 0.1);
+    --planet-color: #00ced1;
+    /* Cyan */
+    --planet-active: #ffd700;
+    --text-main: #e6fcfc;
+    --text-sec: #66b2b2;
+    --dash-bg: rgba(0, 31, 43, 0.85);
+    --accent: #ffd700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    height: 100vh;
+    overflow: hidden;
+    transition: background 1s ease;
+}
+
+/* Theme Switcher */
+.theme-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    gap: 10px;
+}
+
+.theme-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Main Layout */
+.app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Solar System */
+.solar-system {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* The Sun (Current Track) */
+.sun-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    width: 200px;
+    height: 200px;
+}
+
+.sun {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #000;
+    /* Placeholder behind art */
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 60px var(--sun-glow);
+    animation: sun-pulse 4s infinite alternate;
+    transition: box-shadow 1s;
+}
+
+.album-art {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    background: #000;
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: spin 20s linear infinite;
+    /* Slow spin like a planet */
+    animation-play-state: paused;
+}
+
+.playing .album-art img {
+    animation-play-state: running;
+}
+
+.sun-glow {
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, var(--sun-glow) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes sun-pulse {
+    from {
+        box-shadow: 0 0 40px var(--sun-glow);
+    }
+
+    to {
+        box-shadow: 0 0 80px var(--sun-glow);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Orbits & Planets */
+.orbits-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    /* Cover full area */
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through empty space */
+}
+
+/* Dynamic Orbit Rings */
+.orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--orbit-border);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Planet Item */
+.planet {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: var(--planet-color);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    /* Re-centered within the ring container, adjusted via margins/transforms in JS */
+    cursor: pointer;
+    pointer-events: auto;
+    transition: var(--transition-speed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: transparent;
+    /* Hide text unless hovered */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 5;
+}
+
+.planet:hover {
+    transform: scale(1.3) !important;
+    /* Override standard offset scale if needed, logic in JS better */
+    z-index: 100;
+    color: white;
+    background: var(--accent);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.planet img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.planet .tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    color: white;
+    font-size: 0.8rem;
+}
+
+.planet:hover .tooltip {
+    opacity: 1;
+}
+
+
+
+.track-info {
+    text-align: center;
+}
+
+.track-info h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+    color: var(--text-main);
+}
+
+.track-info p {
+    color: var(--text-sec);
+    font-size: 0.9rem;
+}
+
+/* Dashboard (Controls) */
+.dashboard {
+    height: 250px;
+    /* Fixed height for controls */
+    background: var(--dash-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--orbit-border);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-sec);
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+.btn-control.sm {
+    font-size: 1.5rem;
+}
+
+.btn-control.lg {
+    font-size: 3rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 20px var(--sun-glow);
+}
+
+.btn-control.lg:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--sun-glow);
+    color: #fff;
+    /* Keep white on hover */
+}
+
+/* Extra Controls (Vol, Input) */
+.extra-controls {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-sec);
+    width: 150px;
+}
+
+.volume-container input {
+    flex-grow: 1;
+}
+
+.inputs {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.yt-input-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--orbit-border);
+}
+
+.yt-input-wrapper input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 120px;
+    outline: none;
+}
+
+.yt-input-wrapper button {
+    background: var(--accent);
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.icon-btn {
+    color: var(--text-sec);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--text-main);
+}
+
+/* Youtube Player Hidden standard */
+.youtube-player {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1;
+    /* Below sun front */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.youtube-player.active {
+    opacity: 1;
+    z-index: 20;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Range Slider Reset */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: var(--text-main);
+    cursor: pointer;
+    margin-top: -4px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
